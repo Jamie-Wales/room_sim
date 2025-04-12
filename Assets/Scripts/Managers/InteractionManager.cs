@@ -14,11 +14,12 @@ namespace Managers
         private UIManager _uiManager = null!;
 
         private IInteractable? _currentTarget;
+        private InputManager _inputManager = null!;
         private GameObject? _currentTargetObject;
 
         private Camera? _mainCamera;
 
-        private List<Color> _oldColors = new();
+        private readonly List<Color> _oldColors = new();
         [SerializeField]
         private float highlightIntensity = 1.5f;
 
@@ -30,17 +31,14 @@ namespace Managers
         private void Start()
         {
             _uiManager = UIManager.Instance;
+            _inputManager = InputManager.Instance;
             interactionLayer = LayerMask.GetMask("Interaction");
+            _inputManager.PlayerControls.Player.Interact.performed += _ => OnInteractInput();
         }
 
         private void Update()
         {
             HandleInteractionRaycast();
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                OnInteractInput();
-            }
         }
 
         private void HandleInteractionRaycast()
@@ -86,10 +84,16 @@ namespace Managers
             }
         }
 
-        public void OnInteractInput()
+        private void OnInteractInput()
         {
+            print("Interact Input");
+            print(_currentTarget);
+
             if (_currentTarget != null && _currentTarget.CanInteract(gameObject))
+            {
+                print("Interactable");
                 _currentTarget.OnInteract(gameObject);
+            }
         }
 
         private void HighLightCurrentTarget()

@@ -7,7 +7,7 @@ namespace Managers
 {
     public class InputManager : MonoBehaviour
     {
-        private InputSystem _playerControls = null!;
+        public InputSystem PlayerControls = null!;
         public static InputManager Instance { get; private set; } = null!;
 
         private void Awake()
@@ -22,44 +22,44 @@ namespace Managers
                 return;
             }
 
-            _playerControls = new InputSystem();
-            _playerControls.Enable();
+            PlayerControls = new InputSystem();
+            PlayerControls.Enable();
         }
 
         public float GetForward()
         {
-            return _playerControls.Player.Move.ReadValue<Vector2>().y;
+            return PlayerControls.Player.Move.ReadValue<Vector2>().y;
         }
 
         public float GetStrafe()
         {
-            return _playerControls.Player.Move.ReadValue<Vector2>().x;
+            return PlayerControls.Player.Move.ReadValue<Vector2>().x;
         }
 
         public Vector2 GetPitchYaw()
         {
-            return _playerControls.Player.Look.ReadValue<Vector2>();
+            return PlayerControls.Player.Look.ReadValue<Vector2>();
         }
 
         public void SetOnInteractPressed(UnityAction action)
         {
-            _playerControls.Player.Interact.performed += _ => action.Invoke();
+            PlayerControls.Player.Interact.performed += _ => action.Invoke();
         }
 
 
         public void SetOnJumpPressed(UnityAction action)
         {
-            _playerControls.Player.Jump.performed += _ => action.Invoke();
+            PlayerControls.Player.Jump.performed += _ => action.Invoke();
         }
 
         public void SetOnSprintPress(UnityAction action)
         {
-            _playerControls.Player.Sprint.performed += _ => action.Invoke();
+            PlayerControls.Player.Sprint.performed += _ => action.Invoke();
         }
 
         public void SetOnSprintRelease(UnityAction action)
         {
-            _playerControls.Player.Sprint.canceled += _ => action.Invoke();
+            PlayerControls.Player.Sprint.canceled += _ => action.Invoke();
         }
     }
 }
