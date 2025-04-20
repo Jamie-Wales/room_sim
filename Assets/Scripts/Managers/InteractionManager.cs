@@ -86,12 +86,8 @@ namespace Managers
 
         private void OnInteractInput()
         {
-            print("Interact Input");
-            print(_currentTarget);
-
             if (_currentTarget != null && _currentTarget.CanInteract(gameObject))
             {
-                print("Interactable");
                 _currentTarget.OnInteract(gameObject);
             }
         }

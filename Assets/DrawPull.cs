@@ -38,6 +38,6 @@ public class DrawPull : MonoBehaviour, IInteractable
 
     public string GetInteractionPrompt(GameObject interactor)
     {
-        return open ? "Close Drawer" : "Open Drawer";
+        return open ? "Press I to Close Drawer" : "Press I to Open Drawer";
     }
 }

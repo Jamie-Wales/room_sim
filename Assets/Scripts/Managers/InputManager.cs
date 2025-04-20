@@ -31,6 +31,47 @@ namespace Managers
             return PlayerControls.Player.Move.ReadValue<Vector2>().y;
         }
 
+        public void SetOnLeftArrowPressed(UnityAction action)
+        {
+            PlayerControls.Player.ArrowLeft.performed += _ => action.Invoke();
+        }
+
+        public void SetOnRightArrowPressed(UnityAction action)
+        {
+            PlayerControls.Player.ArrowRight.performed += _ => action.Invoke();
+        }
+
+        public void SetOnUpArrowPressed(UnityAction action)
+        {
+            PlayerControls.Player.ArrowUp.performed += _ => action.Invoke();
+        }
+
+        public void SetOnDownArrowPressed(UnityAction action)
+        {
+            PlayerControls.Player.ArrowDown.performed += _ => action.Invoke();
+        }
+
+        public void SetOnLeftArrowReleased(UnityAction action)
+        {
+            PlayerControls.Player.ArrowLeft.canceled += _ => action.Invoke();
+        }
+
+        public void SetOnRightArrowReleased(UnityAction action)
+        {
+            PlayerControls.Player.ArrowRight.canceled += _ => action.Invoke();
+        }
+
+        public void SetOnUpArrowReleased(UnityAction action)
+        {
+            PlayerControls.Player.ArrowUp.canceled += _ => action.Invoke();
+        }
+
+        public void SetOnDownArrowReleased(UnityAction action)
+        {
+            PlayerControls.Player.ArrowDown.canceled += _ => action.Invoke();
+        }
+
+
         public float GetStrafe()
         {
             return PlayerControls.Player.Move.ReadValue<Vector2>().x;
