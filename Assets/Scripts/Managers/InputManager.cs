@@ -71,6 +71,26 @@ namespace Managers
             PlayerControls.Player.ArrowDown.canceled += _ => action.Invoke();
         }
 
+        public void SetOnCommaPressed(UnityAction action)
+        {
+            PlayerControls.Player.Comma.performed += _ => action.Invoke();
+        }
+
+        public void SetOnDotPressed(UnityAction action)
+        {
+            PlayerControls.Player.Dot.performed += _ => action.Invoke();
+        }
+
+        public void SetOnCommaReleased(UnityAction action)
+        {
+            PlayerControls.Player.Comma.canceled += _ => action.Invoke();
+        }
+
+        public void SetOnDotReleased(UnityAction action)
+        {
+            PlayerControls.Player.Dot.canceled += _ => action.Invoke();
+        }
+
 
         public float GetStrafe()
         {

@@ -121,6 +121,24 @@
                     "processors": "",
                     "interactions": "Press",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Comma",
+                    "type": "PassThrough",
+                    "id": "70ea6b3e-38e8-4bd1-8386-e703b1cbbc7c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Dot",
+                    "type": "PassThrough",
+                    "id": "f8d54601-ac6b-47a6-9156-aec1b32a83cf",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -506,6 +524,28 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "ArrowRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7bff8b7b-3462-427e-a474-82395360dd4c",
+                    "path": "<Keyboard>/comma",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Comma",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "43edffdd-04b3-4463-88ed-34c5e40b6892",
+                    "path": "<Keyboard>/period",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Dot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -207,6 +207,24 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Comma"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""70ea6b3e-38e8-4bd1-8386-e703b1cbbc7c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dot"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""f8d54601-ac6b-47a6-9156-aec1b32a83cf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -592,6 +610,28 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""ArrowRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7bff8b7b-3462-427e-a474-82395360dd4c"",
+                    ""path"": ""<Keyboard>/comma"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Comma"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""43edffdd-04b3-4463-88ed-34c5e40b6892"",
+                    ""path"": ""<Keyboard>/period"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Dot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1192,6 +1232,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_Player_ArrowDown = m_Player.FindAction("ArrowDown", throwIfNotFound: true);
         m_Player_ArrowLeft = m_Player.FindAction("ArrowLeft", throwIfNotFound: true);
         m_Player_ArrowRight = m_Player.FindAction("ArrowRight", throwIfNotFound: true);
+        m_Player_Comma = m_Player.FindAction("Comma", throwIfNotFound: true);
+        m_Player_Dot = m_Player.FindAction("Dot", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1298,6 +1340,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ArrowDown;
     private readonly InputAction m_Player_ArrowLeft;
     private readonly InputAction m_Player_ArrowRight;
+    private readonly InputAction m_Player_Comma;
+    private readonly InputAction m_Player_Dot;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1361,6 +1405,14 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/ArrowRight".
         /// </summary>
         public InputAction @ArrowRight => m_Wrapper.m_Player_ArrowRight;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Comma".
+        /// </summary>
+        public InputAction @Comma => m_Wrapper.m_Player_Comma;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Dot".
+        /// </summary>
+        public InputAction @Dot => m_Wrapper.m_Player_Dot;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1426,6 +1478,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @ArrowRight.started += instance.OnArrowRight;
             @ArrowRight.performed += instance.OnArrowRight;
             @ArrowRight.canceled += instance.OnArrowRight;
+            @Comma.started += instance.OnComma;
+            @Comma.performed += instance.OnComma;
+            @Comma.canceled += instance.OnComma;
+            @Dot.started += instance.OnDot;
+            @Dot.performed += instance.OnDot;
+            @Dot.canceled += instance.OnDot;
         }
 
         /// <summary>
@@ -1476,6 +1534,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @ArrowRight.started -= instance.OnArrowRight;
             @ArrowRight.performed -= instance.OnArrowRight;
             @ArrowRight.canceled -= instance.OnArrowRight;
+            @Comma.started -= instance.OnComma;
+            @Comma.performed -= instance.OnComma;
+            @Comma.canceled -= instance.OnComma;
+            @Dot.started -= instance.OnDot;
+            @Dot.performed -= instance.OnDot;
+            @Dot.canceled -= instance.OnDot;
         }
 
         /// <summary>
@@ -1867,6 +1931,20 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnArrowRight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Comma" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnComma(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Dot" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDot(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

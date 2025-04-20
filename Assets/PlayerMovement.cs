@@ -1,4 +1,3 @@
-using System;
 using Managers;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,11 +14,11 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 5.0f;
     [SerializeField] private float sprintSpeed = 8.0f;
-    [SerializeField] private float maxVelocityChange = 10.0f;
 
     [Header("Jump Settings")]
     [SerializeField] private float jumpForce = 5.0f;
     [SerializeField] private float gravityMultiplier = 2.0f;
+    private float _gravity;
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheckTransform;
@@ -32,11 +31,12 @@ public class PlayerMovement : MonoBehaviour
     private bool _jumpRequested;
 
     private float _currentRotationX;
+    private Vector3 _playerVelocity;
 
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
-
+        _gravity = Physics.gravity.y * gravityMultiplier;
     }
 
     private void Start()
@@ -45,10 +45,31 @@ public class PlayerMovement : MonoBehaviour
         Cursor.visible = false;
 
         _inputManager = InputManager.Instance;
+        if (!_inputManager)
+        {
+            Debug.LogError("InputManager Instance not found!");
+            return;
+        }
         _inputActions = _inputManager.PlayerControls;
         _moveAction = _inputActions.Player.Move;
         _jumpAction = _inputActions.Player.Jump;
+
+        _jumpAction.performed += HandleJumpPerformed;
     }
+
+    private void OnEnable()
+    {
+        if (_jumpAction != null)
+        {
+            _jumpAction.performed += HandleJumpPerformed;
+        }
+    }
+
+    private void OnDisable()
+    {
+        _jumpAction.performed -= HandleJumpPerformed;
+    }
+
 
     private void Update()
     {
@@ -61,66 +82,57 @@ public class PlayerMovement : MonoBehaviour
     {
         var pitchYaw = _inputActions.Player.Look.ReadValue<Vector2>();
 
-        _currentRotationX -= pitchYaw.y * 1f;
+        // pitchYaw *= lookSensitivity * Time.deltaTime;
+        const float lookSensitivity = 1.0f;
+
+        _currentRotationX -= pitchYaw.y * lookSensitivity;
         _currentRotationX = Mathf.Clamp(_currentRotationX, -90f, 90f);
 
-        transform.Rotate(Vector3.up * (pitchYaw.x * 1f));
+        transform.Rotate(Vector3.up * (pitchYaw.x * lookSensitivity));
 
         head.localRotation = Quaternion.Euler(_currentRotationX, 0, 0);
     }
 
     private void FixedUpdate()
     {
-        HandleMovement();
-        HandleJump();
+        HandleMovementAndGravity();
     }
 
-    private void HandleMovement()
+    private void HandleMovementAndGravity()
     {
-        // if (!_isGrounded)
-        // {
-        //     return;
-        // }
+        var isGrounded = _characterController.isGrounded;
 
-
-        Vector3 inputDirection = transform.forward * _moveInput.y + transform.right * _moveInput.x;
-        inputDirection.Normalize();
-
-        Vector3 targetVelocity = inputDirection * moveSpeed;
-
-        Vector3 velocity = _characterController.velocity;
-        Vector3 velocityChange = (targetVelocity - new Vector3(velocity.x, 0, velocity.z));
-
-        velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
-        velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
-        velocityChange.y = 0;
-
-        if (_characterController.isGrounded)
+        if (isGrounded && _playerVelocity.y < 0)
         {
-            _characterController.Move(velocityChange * Time.fixedDeltaTime);
+            _playerVelocity.y = -2f;
         }
-        else
+
+        var moveDirection = transform.forward * _moveInput.y + transform.right * _moveInput.x;
+        moveDirection.Normalize();
+
+        var horizontalVelocity = moveDirection * moveSpeed;
+
+        _playerVelocity.x = horizontalVelocity.x;
+        _playerVelocity.z = horizontalVelocity.z;
+
+
+        if (_jumpRequested && isGrounded)
         {
-            _characterController.Move(Physics.gravity * (gravityMultiplier * Time
-                .fixedDeltaTime));
+            _playerVelocity.y = jumpForce;
+            _jumpRequested = false;
         }
+
+        _playerVelocity.y += _gravity * Time.fixedDeltaTime;
+
+
+        _characterController.Move(_playerVelocity * Time.fixedDeltaTime);
     }
 
     private void HandleJumpPerformed(InputAction.CallbackContext context)
     {
-        if (_characterController.isGrounded)
-        {
-            _jumpRequested = true;
-        }
+        _jumpRequested = true;
     }
 
-    private void HandleJump()
-    {
-        if (_jumpRequested)
-        {
-            _characterController.Move(Vector3.up * (jumpForce * Time.fixedDeltaTime));
-        }
-    }
 
     private void OnDrawGizmosSelected()
     {
@@ -128,6 +140,11 @@ public class PlayerMovement : MonoBehaviour
         {
             Gizmos.color = _characterController.isGrounded ? Color.green : Color.red;
             Gizmos.DrawWireSphere(groundCheckTransform.position, groundDistance);
+        }
+        else
+        {
+             Gizmos.color = _characterController.isGrounded ? Color.green : Color.red;
+             Gizmos.DrawWireSphere(transform.position + Vector3.down * (_characterController.height / 2 - _characterController.radius), _characterController.radius);
         }
     }
 }

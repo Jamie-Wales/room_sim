@@ -27,7 +27,7 @@ public class MoveableObject : MonoBehaviour, IInteractable
     private Camera _mainCamera;
     private bool _isHeld = false;
     private Vector3 _targetPosition;
-    private Vector3 _velocity = Vector3.zero; // Used for SmoothDamp
+    private Vector3 _velocity = Vector3.zero;
     private float _heldDistance;
     private InputManager _inputManager;
 
@@ -35,6 +35,8 @@ public class MoveableObject : MonoBehaviour, IInteractable
     private bool _rightArrowPressed;
     private bool _upArrowPressed;
     private bool _downArrowPressed;
+    private bool _commaPressed;
+    private bool _dotPressed;
 
     private void Awake()
     {
@@ -103,6 +105,32 @@ public class MoveableObject : MonoBehaviour, IInteractable
         {
             _downArrowPressed = false;
         });
+
+        _inputManager.SetOnCommaPressed(() =>
+        {
+            if (_isHeld)
+            {
+                _commaPressed = true;
+            }
+        });
+
+        _inputManager.SetOnCommaReleased(() =>
+        {
+            _commaPressed = false;
+        });
+
+        _inputManager.SetOnDotPressed(() =>
+        {
+            if (_isHeld)
+            {
+                _dotPressed = true;
+            }
+        });
+
+        _inputManager.SetOnDotReleased(() =>
+        {
+            _dotPressed = false;
+        });
     }
 
     private void OnMouseDown()
@@ -143,6 +171,18 @@ public class MoveableObject : MonoBehaviour, IInteractable
         if (_downArrowPressed)
         {
             transform.Rotate(Vector3.right, -rotationSpeed * Time.deltaTime);
+        }
+
+        if (_commaPressed)
+        {
+            _heldDistance -= Time.deltaTime;
+            _heldDistance = Mathf.Clamp(_heldDistance, 0.5f, 10f);
+        }
+
+        if (_dotPressed)
+        {
+            _heldDistance += Time.deltaTime;
+            _heldDistance = Mathf.Clamp(_heldDistance, 0.5f, 10f);
         }
     }
 
