@@ -7766,7 +7766,7 @@ MonoBehaviour:
   - {fileID: 2003523753}
   placeableObjectNames:
   - Sphere
-  - String
+  - Vase
   placementLayerMask:
     serializedVersion: 2
     m_Bits: 0
@@ -18795,6 +18795,10 @@ PrefabInstance:
     - target: {fileID: 4183357121803592, guid: 99a0f1488ea2c1d47b7e9f7190961e40, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 65091156510228424, guid: 99a0f1488ea2c1d47b7e9f7190961e40, type: 3}
+      propertyPath: m_Size.y
+      value: 1.948808
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
