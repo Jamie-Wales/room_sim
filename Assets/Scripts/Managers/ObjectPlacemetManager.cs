@@ -32,7 +32,7 @@ public class ObjectPlacementManager : MonoBehaviour
 
     [SerializeField]
     [Tooltip("How far from the camera the object floats when not over a valid surface.")]
-    private float defaultPlacementDistance = 5f;
+    private float defaultPlacementDistance = 1f;
 
     [Header("UI Display")]
     [SerializeField]

@@ -2045,7 +2045,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4e3472c094b8146469870886e7ccf1a0, type: 2}
+  - {fileID: 2100000, guid: b26df7115f2454ac595b0785cc525542, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7772,7 +7772,7 @@ MonoBehaviour:
     m_Bits: 0
   placementOffset: 0.05
   placementTint: {r: 1, g: 0.5, b: 0.5, a: 0.75}
-  defaultPlacementDistance: 5
+  defaultPlacementDistance: 1
   selectionTextDisplay: {fileID: 474826713}
 --- !u!4 &313205118
 Transform:
